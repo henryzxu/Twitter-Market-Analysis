@@ -3,12 +3,12 @@
 import urllib.request, csv, re, sqlite3, html, os.path
 
 se_list = ['nasdaq','nyse', 'amex']
+sql_path = 'data/completecompanylist.sql'
+sql_table_name = 'companytable'
 def company_table(se = None, update = False, update_sql = False):
     """Returns table of company data from stock exchange 'se' 
     where each row contains the ticker symbol, lowercase company name, and NASDAQ website"""
     assert se is None or se in se_list, 'Not a valid stock exchange'
-    sql_path = 'data/completecompanylist.sql'
-    sql_table_name = 'companytable'
     if not se:
         tickertable = {}
         for se in se_list:
@@ -53,8 +53,8 @@ def dict_to_sql(csvfile, se, dest_table, dest_name):
     """Merges data from csvfile into dest_table at dest_name."""
     full_data = csv.DictReader(csvfile)
     first_row = next(full_data)
-    order_keys = [item for item in first_row.keys() if item != '' and item != 'Name'] + ['Name']
-    column_names = [item.lower().replace(' ','') for item in order_keys if item != '' and item != 'Name']
+    order_keys = [item for item in first_row.keys() if item != '' and item.lower() != 'name'] + ['Name']
+    column_names = [item.lower().replace(' ','') for item in order_keys[:-1] if item != '']
     column_names += ['name PRIMARY KEY']
     conn = sqlite3.connect(dest_name)
     curs = conn.cursor()
