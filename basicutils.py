@@ -1,19 +1,24 @@
 import json, os.path
 from functools import partial
 
-
+local_cache = {}
     
 def bulk_search(search, lst, *args, **kwargs):
     results = []
     for item in lst:
-        results.append(search(item, *args, **kwargs))
+        results.extend(search(item, *args, **kwargs))
     return results
 
-if os.path.exists('data/cached_searches.json'):
-    with open('data/cached_searches.json') as jsonfile:
-        local_cache = json.loads(next(jsonfile))
-else:
-    local_cache = {}
+def import_cache(path):
+    global local_cache
+    if os.path.exists(path):
+        with open(path) as jsonfile:
+            local_cache = json.loads(next(jsonfile))
+            for key in local_cache:
+                if isinstance(local_cache[key],list):
+                    local_cache[key] = list(map(tuple, local_cache[key]))         
+
+
     
 class memo(object):
     def __init__(self, func):
@@ -33,9 +38,14 @@ class memo(object):
             res = local_cache[key] = self.func(*args, **kw)
         return res
 
-def json_dump():
-    with open('data/cached_searches.json','w') as output:
+def json_dump(path):
+    with open(path,'w') as output:
         json.dump(local_cache, output)
+
+def clear_cache(path):
+    if os.path.exists(path):
+        os.remove(path)
+    local_cache = {}
        
                             
                 
