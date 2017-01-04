@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, csv, re, sqlite3, html, os.path
+import urllib.request, csv, re, sqlite3, html, os.path, config
 
 se_list = ['nasdaq','nyse', 'amex']
-sql_path = 'data/completecompanylist.sql'
-sql_table_name = 'companytable'
 def company_table(se = None, update = False, update_sql = False):
     """Returns table of company data from stock exchange 'se' 
     where each row contains the ticker symbol, lowercase company name, and NASDAQ website"""
@@ -19,10 +17,10 @@ def company_table(se = None, update = False, update_sql = False):
         if update_sql:
             if os.path.exists('data/companylist' + se + '.csv'):
                 with open('data/companylist' + se + '.csv', newline = '') as csvfile:
-                    dict_to_sql(csvfile, se, sql_table_name, sql_path)
+                    dict_to_sql(csvfile, se, config.sql_table_name, config.sql_path, 'Name')
             else:
                 return company_table(se = se, update = True)
-        tickertable = sql_to_dict(sql_path, sql_table_name)     
+        tickertable = sql_to_dict(config.sql_path, config.sql_table_name)     
         return tickertable
     else:
         try: 
@@ -41,29 +39,23 @@ def company_table(se = None, update = False, update_sql = False):
         tickertable = company_table(se = se, update_sql = True)
         return tickertable
 
-def csv_to_table(csvfile, se):
-    tickers = csv.DictReader(csvfile)
-    table = {}
-    for row in tickers:
-        table[html.unescape(str(row['Name']))] = html.unescape(str(row['Symbol']))
-    return table
 
-
-def dict_to_sql(csvfile, se, dest_table, dest_name):
+def dict_to_sql(csvfile, se, dest_table, dest_name, primary_key):
     """Merges data from csvfile into dest_table at dest_name."""
     full_data = csv.DictReader(csvfile)
     first_row = next(full_data)
-    order_keys = [item for item in first_row.keys() if item != '' and item.lower() != 'name'] + ['Name']
-    column_names = [item.lower().replace(' ','') for item in order_keys[:-1] if item != '']
-    column_names += ['name PRIMARY KEY']
+    assert primary_key in first_row.keys(), 'Not a valid key.'
+    order_keys = [item for item in first_row.keys() if item != '']
+    primary_insert = primary_key.lower().replace(' ','')
+    column_names = [item.lower().replace(' ','') if item != primary_key else primary_insert + ' PRIMARY KEY' for 
+                    item in order_keys if item != ''] + ['se']
     conn = sqlite3.connect(dest_name)
     curs = conn.cursor()
-    curs.executescript("CREATE TABLE IF NOT EXISTS " + dest_table + "(" + ','.join(column_names + ['se']) + ");")
-    column_names.pop()
-    column_names.append('name')
+    curs.executescript("CREATE TABLE IF NOT EXISTS " + dest_table + "(" + ','.join(column_names) + ");")
+    column_names = [item.replace(primary_insert + ' PRIMARY KEY', primary_insert) for item in column_names]
     for row in full_data:
-        to_db = [html.unescape(str(row[x])) for x in order_keys]
-        curs.execute("INSERT OR IGNORE INTO " + dest_table + " (" + ','.join(column_names + ['se']) + ") VALUES  (" + ','.join(['?']*(len(order_keys)+1))+ ");", to_db + [se])
+        to_db = [html.unescape(str(row[x])) for x in order_keys] + [se]
+        curs.execute("INSERT OR IGNORE INTO " + dest_table + " (" + ','.join(column_names) + ") VALUES  (" + ','.join(['?']*(len(order_keys)+1))+ ");", to_db)
     conn.commit()
     conn.close()
     return
@@ -80,7 +72,17 @@ def sql_to_dict(sql_loc, table_name):
     return return_dict
 
 
-#Miscellaneous Functions 
+def sql_search(company_name, search_terms, cursor, se = None):
+        if se:
+            query = (company_name, se,)
+            rows = cursor.execute('SELECT ' + ','.join(search_terms) + ' FROM ' + config.sql_table_name + ' WHERE name LIKE ? AND se = ?;', query).fetchall()
+        else:
+            query = (company_name,)
+            rows = cursor.execute('SELECT ' + ','.join(search_terms) +' FROM ' + config.sql_table_name + ' WHERE name LIKE ?;', query).fetchall()
+        return rows
+
+
+#Deprecated Functions 
 
 #Replaced by dict_to_sql
 def data_to_sql(table, se):
@@ -94,6 +96,15 @@ def data_to_sql(table, se):
     conn.commit()
     conn.close()
     return
+
+#Replaced by sql_to_dict
+def csv_to_table(csvfile, se):
+    """Converts csvfile into a dictionary where the keys are company names and the values are their respective symbols.'"""
+    tickers = csv.DictReader(csvfile)
+    table = {}
+    for row in tickers:
+        table[html.unescape(str(row['Name']))] = html.unescape(str(row['Symbol']))
+    return table
     
 #Fuzzy matching moved to matchutils.py
 def closest_match(lst, string, upper = False):
