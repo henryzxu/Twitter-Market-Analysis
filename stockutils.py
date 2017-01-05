@@ -68,19 +68,35 @@ def sql_to_dict(sql_loc, table_name):
     curs = conn.cursor()
     entries = curs.execute("SELECT name,symbol from " + table_name + ";").fetchall()
     for name,symbol in entries:
-        return_dict[name] = symbol
+        return_dict[name] = name
+    conn.close()
     return return_dict
 
 
-def sql_search(company_name, search_terms, cursor, se = None):
-        if se:
-            query = (company_name, se,)
-            rows = cursor.execute('SELECT ' + ','.join(search_terms) + ' FROM ' + config.sql_table_name + ' WHERE name LIKE ? AND se = ?;', query).fetchall()
-        else:
-            query = (company_name,)
-            rows = cursor.execute('SELECT ' + ','.join(search_terms) +' FROM ' + config.sql_table_name + ' WHERE name LIKE ?;', query).fetchall()
-        return rows
+def sql_search(path, table_name, search_terms, **conditions):
+    rows = []
+    try:
+        columns = []
+        for column_name, param in conditions.items():
+            assert param
+            if not isinstance(param, list):
+                param = [param]
+            conditional = ' AND ' if param[0] == '^' else ' OR '
+            columns += [(' = ?' + conditional).join([column_name for _ in range(len(param))]) + ' = ?']  
+        query = tuple(flatten([param for param in conditions.values()]),)     
+        conn = sqlite3.connect(path)
+        c = conn.cursor()
+        rows = c.execute('SELECT ' + ','.join(search_terms) + ' FROM ' + table_name + ' WHERE ' + ' AND '.join(columns) + ';', query).fetchall()
+        conn.close()
+    except (sqlite3.OperationalError, AssertionError) as e:
+        pass
+    return rows
 
+def flatten(x):
+    if isinstance(x, list):
+        return [a for i in x for a in flatten(i)]
+    else:
+        return [x]
 
 #Deprecated Functions 
 
