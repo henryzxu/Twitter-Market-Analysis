@@ -20,7 +20,7 @@ def lev_dist(s1, s2):
     return previous_row[-1]
 
 def fuzzy_search(s, lst):
-    search_s = s.replace(',','')
+    search_s = s.strip().replace(',','')
     res, lev_search = [], []
     for string in lst:
         search_string = string.replace(',','')
