@@ -19,7 +19,7 @@ def lev_dist(s1, s2):
     
     return previous_row[-1]
 
-def fuzzy_search(s, lst, num_results = 2):
+def fuzzy_search(s, lst, num_results = 5):
     assert s and lst, 'Fuzzy search lists cannot be empty.'
     search_s = re.sub(r'\s+', ' ', re.sub(r'[^\w\s]', ' ', s.strip()))
     t1res, t2res, lev_search = [], [], []
@@ -27,16 +27,17 @@ def fuzzy_search(s, lst, num_results = 2):
         search_string = re.sub(r'\s+', ' ', re.sub(r'[^\w\s]', ' ', string.strip()))
         if search_string == search_s:
             return [string]
-        matcht1 = re.search(r'\b' + search_s.lower() + r'\b',search_string.lower())
+        matcht1 = re.search(r'\b' + r'\b[\w\s]*\b'.join(search_s.lower().split()) + r'\b',search_string.lower())
         if matcht1:
             t1res.append(string)
+            t2res.append(string)
         else:
-            matcht2 = search_s == search_s.upper() and re.search(r'[\s\w]*\b[a-z\s]*'.join(list(search_s)) + r'\w*\b.*', search_string)
+            matcht2 = search_s == search_s.upper() and re.search(r'[\s\w]*\b[a-z\s]*'.join(list(search_s)) + r'\w*\b.*', search_string) or matcht1
             if matcht2:
                 t2res.append(string)
             else:
                 match = re.search(r'.*' + r'\S*'.join(list(search_s)) + r'.*', search_string)
                 if match:
                     lev_search += [match.group()]
-    return t1res or t2res[:num_results] or sorted(lev_search, key = lambda s2: lev_dist(s, s2))[:10] 
+    return [t1res if len(t1res) == 1 else [], t2res[:num_results], sorted(lev_search, key = lambda s2: lev_dist(s, s2))[:10]] 
         
