@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, csv, re, sqlite3, html, os.path, config
+import urllib.request, csv, re, sqlite3, html, os.path, config, collections
 
 se_list = ['nasdaq','nyse', 'amex']
 def company_table(se = None, update = False, update_sql = False):
@@ -38,7 +38,6 @@ def company_table(se = None, update = False, update_sql = False):
             print('Failed to update ' + se.upper() + ' exchange table')
         tickertable = company_table(se = se, update_sql = True)
         return tickertable
-
 
 def dict_to_sql(csvfile, se, dest_table, dest_name, primary_key):
     """Merges data from csvfile into dest_table at dest_name."""
@@ -80,10 +79,13 @@ def sql_search(path, table_name, search_terms, **conditions):
         for column_name, param in conditions.items():
             assert param
             if not isinstance(param, list):
-                param = [param]
+                if isinstance(param, str) or isinstance(param, int):
+                    param = [param]
+                elif isinstance(param, collections.Iterable):
+                    param = list(param)
             conditional = ' AND ' if param[0] == '^' else ' OR '
             columns += [(' = ?' + conditional).join([column_name for _ in range(len(param))]) + ' = ?']  
-        query = tuple(flatten([param for param in conditions.values()]),)     
+        query = tuple([str(s) for s in flatten([param for param in conditions.values()])],)  
         conn = sqlite3.connect(path)
         c = conn.cursor()
         rows = c.execute('SELECT ' + ','.join(search_terms) + ' FROM ' + table_name + ' WHERE ' + ' AND '.join(columns) + ';', query).fetchall()
