@@ -59,7 +59,7 @@ In[5]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasda
 ### Additional Features
 * CSV to SQLite3 conversion with primary key specification
 * Memoization of all database queries and historical stock prices
-* 3 tier fuzzy search:
+* 3-tier fuzzy search:
     1. Guaranteed matches
     2. Acronyms and whole word matches
     3. Supplied list ranked by Levenshtein distance
