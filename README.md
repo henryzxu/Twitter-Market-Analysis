@@ -38,3 +38,28 @@ dismal [-14.006696428571436]
 
 Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '), (-14.006696428571436, 'Sears Holdings Corporation'), (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
 ```
+
+#### Database Lookup
+```markdown
+In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:4]
+```
+
+```markdown
+Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Management, Inc.', 'n/a', '$31.39B'), ('MDLY', 'Medley Management Inc.', '2014', '$285.6M'), ('OMAA', 'OM Asset Management plc', '2016', 'n/a')]
+```
+
+```markdown
+In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:4]
+```
+
+```markdown
+In[5]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq'), ('BEBE', 'bebe stores, inc.', 'nasdaq'),('CFNL', 'Cardinal Financial Corporation', 'nasdaq')]
+```
+
+### Additional Features
+* CSV to SQLite3 conversion with primary key specification
+* Memoization of all database queries and historical stock prices
+* 3 tier fuzzy search:
+    1. Guaranteed matches
+    2. Acronyms and whole word matches
+    3. Supplied list ranked by Levenshtein distance
