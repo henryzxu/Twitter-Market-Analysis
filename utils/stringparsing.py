@@ -1,4 +1,5 @@
-import re, matchutils, basicutils, ner_lists
+import re
+from utils import matchutils, basicutils, ner_lists
 try:
     from nltk.tag import pos_tag
     from nltk import bigrams

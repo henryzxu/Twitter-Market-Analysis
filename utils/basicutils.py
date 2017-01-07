@@ -52,7 +52,7 @@ class memo(object):
     """Decorator to memoize functions, with memoized results stored in local_cache."""
     def __init__(self, func):
         self.func = func
-        self.cache_path = 'data/cache/{}.json'.format(func.__name__)
+        self.cache_path = 'utils/data/json/cache/{}.json'.format(func.__name__)
         self.local_cache = import_json(self.cache_path)
         
         

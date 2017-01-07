@@ -1,4 +1,5 @@
-import re, basicutils
+import re
+from utils import basicutils
 
 def lev_dist(s1, s2):
     """Calculates Levenshtein distance between s1 and s2."""

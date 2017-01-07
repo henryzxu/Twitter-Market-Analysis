@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import urllib.request, csv, re, sqlite3, html, os.path, config, collections
+import urllib.request, csv, re, sqlite3, html, os.path, collections
+from utils import sql_config
 
 se_list = ['nasdaq','nyse', 'amex']
 def company_table(se = None, update = False, update_sql = False):
@@ -15,12 +16,12 @@ def company_table(se = None, update = False, update_sql = False):
     se = se.lower()
     if not update:
         if update_sql:
-            if os.path.exists('data/companylist' + se + '.csv'):
-                with open('data/companylist' + se + '.csv', newline = '') as csvfile:
-                    dict_to_sql(csvfile, se, config.sql_table_name, config.sql_path, 'Name')
+            if os.path.exists('utils/data/companylist' + se + '.csv'):
+                with open('utils/data/companylist' + se + '.csv', newline = '') as csvfile:
+                    dict_to_sql(csvfile, se, sql_config.sql_table_name, sql_config.sql_path, 'Name')
             else:
                 return company_table(se = se, update = True)
-        tickertable = sql_to_dict(config.sql_path, config.sql_table_name)     
+        tickertable = sql_to_dict(sql_config.sql_path, sql_config.sql_table_name)     
         return tickertable
     else:
         try: 
@@ -33,7 +34,7 @@ def company_table(se = None, update = False, update_sql = False):
                 url = ticker_file_url.group(1)
             else:
                 raise Exception
-            urllib.request.urlretrieve(url, 'data/companylist' + se + '.csv') 
+            urllib.request.urlretrieve(url, 'utils/data/companylist' + se + '.csv') 
         except:
             print('Failed to update ' + se.upper() + ' exchange table')
         tickertable = company_table(se = se, update_sql = True)
