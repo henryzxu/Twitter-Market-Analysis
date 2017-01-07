@@ -1,12 +1,12 @@
-## Welcome to GitHub Pages
+## Twitter Market Analysis
 
-You can use the [editor on GitHub](https://github.com/henryzxu/Twitter-Market-Analysis/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+A project to predict market movement based on short strings such as news headlines and Twitter tweets using language parsing, database lookup, JSON storage, and fuzzy searching. 
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+All results are dependant on the size of training data set, which is not included.
 
-### Markdown
+### Introduction
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+TO DO
 
 ```markdown
 Syntax highlighted code block
