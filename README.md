@@ -6,32 +6,35 @@ All results are dependant on the size of training data set, which is not include
 
 ### Introduction
 
-TO DO
+The stock market is reactionary--that is, it reacts to the news. In an era where the news is dictated not by veracity, but by speed, the ability to parse headlines as they come is crucial to maintaining the upper edge in market operations. While true natural language processing has yet to achieved, this repository gives one approach to analyzing sentence connotations. By training the computer to associate each word with a particular market movement, it can give a general gauge of how the market will react to a particular piece of news. 
 
 ```markdown
-Syntax highlighted code block
 
-# Header 1
-## Header 2
-### Header 3
+In[1]: w = StockData()
+       w.news_impact(datetime.datetime(2017,1,5),"Macy's to cut more than 10,000 jobs, close 68 stores")
 
-- Bulleted
-- List
+```
+```markdown
+Company: Macy's Inc	Previous Day Close: 35.84	Next Day Open: 30.82	Net Change: -14.006696428571436
+No file found at data/word_connotations.json.
+Data dumped at data/word_connotations.json.
 
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Out[1]: ["Negative for Macy's Inc"]
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```markdown
 
-### Jekyll Themes
+In[1]: w.impact_prediction('Sears facing dismal holiday retail season.')
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/henryzxu/Twitter-Market-Analysis/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+```
+```markdown
+Data loaded from data/word_connotations.json.
+holiday retail [-14.006696428571436]
+retail season [-14.006696428571436]
+facing [-14.006696428571436]
+dismal [-14.006696428571436]
 
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+Out[19]: [(-14.006696428571436, 'Sears Canada Inc. '),
+          (-14.006696428571436, 'Sears Holdings Corporation'),
+          (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
+```
