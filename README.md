@@ -37,6 +37,6 @@ facing [-14.006696428571436]
 dismal [-14.006696428571436]
 
 Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '),
-          (-14.006696428571436, 'Sears Holdings Corporation'),
-          (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
+         (-14.006696428571436, 'Sears Holdings Corporation'),
+         (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
 ```
