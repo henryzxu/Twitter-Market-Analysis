@@ -44,6 +44,6 @@ def fuzzy_search(s, lst, num_results = 5):
             else:
                 match = re.search(r'.*' + r'\S*'.join(list(search_s)) + r'.*', search_string)
                 if match:
-                    lev_search += [match.group()]
+                    lev_search += [string]
     return [t1res if len(t1res) == 1 else [], sorted(t2res[:num_results], key = len), sorted(lev_search, key = lambda s2: lev_dist(s, s2))[:10]] 
         
