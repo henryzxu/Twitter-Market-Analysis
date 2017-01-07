@@ -41,19 +41,19 @@ Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '), (-14.006696428571436, 'Sea
 
 #### Database Lookup
 ```markdown
-In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:4]
+In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:2]
 ```
 
 ```markdown
-Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Management, Inc.', 'n/a', '$31.39B'), ('MDLY', 'Medley Management Inc.', '2014', '$285.6M'), ('OMAA', 'OM Asset Management plc', '2016', 'n/a')]
+Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Management, Inc.', 'n/a', '$31.39B')]
 ```
 
 ```markdown
-In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:4]
+In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:2]
 ```
 
 ```markdown
-In[5]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq'), ('BEBE', 'bebe stores, inc.', 'nasdaq'),('CFNL', 'Cardinal Financial Corporation', 'nasdaq')]
+In[5]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq')]
 ```
 
 ### Additional Features
