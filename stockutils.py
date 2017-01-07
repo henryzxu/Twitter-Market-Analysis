@@ -73,6 +73,7 @@ def sql_to_dict(sql_loc, table_name):
 
 
 def sql_search(path, table_name, search_terms, **conditions):
+    """Searches the table_name at path for search_terms which fulfill conditions."""
     rows = []
     try:
         columns = []

@@ -1,6 +1,7 @@
-import re
+import re, basicutils
 
 def lev_dist(s1, s2):
+    """Calculates Levenshtein distance between s1 and s2."""
     if len(s1) < len(s2):
         return lev_dist(s2,s1)
     
@@ -20,6 +21,10 @@ def lev_dist(s1, s2):
     return previous_row[-1]
 
 def fuzzy_search(s, lst, num_results = 5):
+    """Returns the closest string in lst to s. 
+    First returned list is a guaranteed match, 
+    second returned list is acronyms and whole word matches, 
+    third returned list uses the Levenshtein approach."""
     assert s and lst, 'Fuzzy search lists cannot be empty.'
     search_s = re.sub(r'\s+', ' ', re.sub(r'[^\w\s]', ' ', s.strip()))
     t1res, t2res, lev_search = [], [], []
@@ -39,5 +44,5 @@ def fuzzy_search(s, lst, num_results = 5):
                 match = re.search(r'.*' + r'\S*'.join(list(search_s)) + r'.*', search_string)
                 if match:
                     lev_search += [match.group()]
-    return [t1res if len(t1res) == 1 else [], t2res[:num_results], sorted(lev_search, key = lambda s2: lev_dist(s, s2))[:10]] 
+    return [t1res if len(t1res) == 1 else [], sorted(t2res[:num_results], key = len), sorted(lev_search, key = lambda s2: lev_dist(s, s2))[:10]] 
         

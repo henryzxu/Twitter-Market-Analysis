@@ -1,28 +1,60 @@
 import json, os.path
 from functools import partial
-
-local_cache = {}
+    
+def avg(lst):
+    return sum(lst)/len(lst) if lst else ''
     
 def bulk_search(search, lst, *args, **kwargs):
+    """Applies search to every item in lst keeping all *args and **kwargs"""
     results = []
     for item in lst:
         results.extend(search(item, *args, **kwargs))
     return results
 
-def import_cache(path):
-    global local_cache
+def import_json(path):
+    """Returns dict from json file located at path if path exists. Returns an empty dict if otherwise."""
     if os.path.exists(path):
-        with open(path) as jsonfile:
-            local_cache = json.loads(next(jsonfile))
-            for key in local_cache:
-                if isinstance(local_cache[key],list):
-                    local_cache[key] = list(map(tuple, local_cache[key]))         
+        try:
+            with open(path) as jsonfile:
+                local_dict = json.loads(next(jsonfile))
+            print('Data loaded from {}.'.format(path))
+        except StopIteration:
+            clear_json(path)
+            return import_json(path)
+    else:
+        local_dict = {}
+        print('No file found at {}.'.format(path))
+    return local_dict
 
+def json_dump(path, local_dict):
+    """Dumps local_dict into json file at path."""
+    with open(path,'w') as output:
+        json.dump(local_dict, output)
+    print('Data dumped at {}.'.format(path))
 
+def clear_json(path):
+    """Clears json file located at path."""
+    if os.path.exists(path):
+        os.remove(path)
+        print('Data at {} cleared.'.format(path))
+    else:
+        print('No file found at {}.'.format(path))
+
+def dict_req(key, dictionary):
+    """Attempts to return dictionary[key], returns None if key not found."""
+    try:
+        print(key, dictionary[key])
+        return dictionary[key]
+    except KeyError:
+        return None
     
 class memo(object):
+    """Decorator to memoize functions, with memoized results stored in local_cache."""
     def __init__(self, func):
         self.func = func
+        self.cache_path = 'data/cache/{}.json'.format(func.__name__)
+        self.local_cache = import_json(self.cache_path)
+        
         
     def __get__(self, obj, objtype=None):
         if obj is None:
@@ -30,26 +62,37 @@ class memo(object):
         return partial(self, obj)
     
     def __call__(self, *args, **kw):
-        global local_cache
-        obj = args[0]
-        key = self.func.__name__+ str(args[1:])+ str(kw.items())
-        try:
-            res = local_cache[key]
-        except KeyError:
-            res = local_cache[key] = self.func(*args, **kw)
-        return res
+        if 'cache' in kw.keys():
+            if kw['cache'] == 'dump':
+                json_dump(self.cache_path, self.local_cache)
+                self.local_cache = import_json(self.cache_path)
+            elif kw['cache'] == 'clear':
+                clear_json(self.cache_path)
+                self.local_cache = {}
+        else:
+            obj = args[0]
+            key = self.func.__name__+ str(args[1:])+ str(kw.items())
+            try:
+                res = self.local_cache[key]
+            except KeyError:
+                res = self.local_cache[key] = self.func(*args, **kw)
+            return res
 
-def json_dump(path):
-    global local_cache
-    with open(path,'w') as output:
-        json.dump(local_cache, output)
-        local_cache = {}
+class Tree:
+    def __init__(self, tag, branches):
+        assert len(branches) >= 1
+        for b in branches:
+            assert isinstance(b, (Tree, Leaf))
+        self.tag = tag
+        self.branches = branches 
 
-def clear_cache(path):
-    global local_cache
-    if os.path.exists(path):
-        os.remove(path)
-    local_cache = {}
+class Leaf:
+    def __init__(self,tag,word):
+        self.tag = tag
+        self.word = word
+    
+
+
        
                             
                 
