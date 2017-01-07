@@ -8,6 +8,9 @@ All results are dependant on the size of training data set, which is not include
 
 The stock market is reactionary--that is, it reacts to the news. In an era where the news is dictated not by veracity, but by speed, the ability to parse headlines as they come is crucial to maintaining the upper edge in market operations. While true natural language processing has yet to achieved, this repository gives one approach to analyzing sentence connotations. By training the computer to associate each word with a particular market movement, it can give a general gauge of how the market will react to a particular piece of news. 
 
+### Functionality
+
+#### Company Parsing
 ```markdown
 
 In[1]: w = StockData()
@@ -21,10 +24,10 @@ Data dumped at data/word_connotations.json.
 
 Out[1]: ["Negative for Macy's Inc"]
 ```
-
+#### Market Prediction
 ```markdown
 
-In[1]: w.impact_prediction('Sears facing dismal holiday retail season.')
+In[2]: w.impact_prediction('Sears facing dismal holiday retail season.')
 
 ```
 ```markdown
@@ -34,7 +37,7 @@ retail season [-14.006696428571436]
 facing [-14.006696428571436]
 dismal [-14.006696428571436]
 
-Out[19]: [(-14.006696428571436, 'Sears Canada Inc. '),
+Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '),
           (-14.006696428571436, 'Sears Holdings Corporation'),
           (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
 ```
