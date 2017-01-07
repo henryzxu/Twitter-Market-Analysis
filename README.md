@@ -2,7 +2,7 @@
 
 A research project to predict market movement based on short strings such as news headlines and Twitter tweets using language parsing, database lookup, JSON storage, and fuzzy searching. 
 
-All results are dependant on the size of training data set, which is not included.
+All results are dependant on the size of training data set.
 
 ### Introduction
 
