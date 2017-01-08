@@ -14,8 +14,8 @@ def lev_dist(s1, s2):
         current_row = [i + 1]
         for j, c2 in enumerate(s2):
             insertions = previous_row[j+1] + 1
-            deletions = current_row[j] + 1
-            subs = previous_row[j] + (c1 != c2)
+            deletions = current_row[j] + 2
+            subs = previous_row[j] + 2*(c1 != c2)
             current_row.append(min(insertions, deletions, subs))
         previous_row = current_row
     
@@ -25,7 +25,7 @@ def fuzzy_search(s, lst, num_results = 5):
     """Returns the closest string in lst to s. 
     First returned list is a guaranteed match, 
     second returned list is acronyms and whole word matches, 
-    third returned list uses the Levenshtein approach."""
+    third returned list uses Levenshtein distance modified to favor abbreviations."""
     assert s and lst, 'Fuzzy search lists cannot be empty.'
     search_s = re.sub(r'\s+', ' ', re.sub(r'[^\w\s]', ' ', s.strip()))
     t1res, t2res, lev_search = [], [], []

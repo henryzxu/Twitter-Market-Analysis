@@ -66,3 +66,6 @@ Out[4]: [('DHY', 'Credit Suisse High Yield Bond Fund', 'amex')]
     1. Guaranteed matches
     2. Acronyms and whole word matches
     3. Supplied list ranked by Levenshtein distance
+
+### Attributions
+Company information sourced from the NASDAQ website under fair use. Levenshtein distance function modified from the Wikibooks article on the subject found [here](https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance).
