@@ -2,7 +2,7 @@
 
 A research project to predict market movement based on short strings such as news headlines and Twitter tweets using language parsing, database lookup, JSON storage, and fuzzy searching. 
 
-All results are dependant on the size of training data set, which is not included.
+All results are dependant on the size of training data set.
 
 ### Introduction
 
@@ -43,26 +43,30 @@ Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '), (-14.006696428571436, 'Sea
 
 ##### Fuzzy Name Search
 ```markdown
-In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:4]
+In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:2]
 ```
 
 ```markdown
-Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Management, Inc.', 'n/a', '$31.39B'), ('MDLY', 'Medley Management Inc.', '2014', '$285.6M'), ('OMAA', 'OM Asset Management plc', '2016', 'n/a')]
+Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Management, Inc.', 'n/a', '$31.39B')]
 ```
 
 ##### Multiple Condition Search
 ```markdown
-In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:4]
+In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:2]
 ```
 
 ```markdown
+<<<<<<< HEAD
 Out[4]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq'), ('BEBE', 'bebe stores, inc.', 'nasdaq'),('CFNL', 'Cardinal Financial Corporation', 'nasdaq')]
+=======
+In[5]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq')]
+>>>>>>> origin/master
 ```
 
 ### Additional Features
 * CSV to SQLite3 conversion with primary key specification
 * Memoization of all database queries and historical stock prices
-* 3 tier fuzzy search:
+* 3-tier fuzzy search:
     1. Guaranteed matches
     2. Acronyms and whole word matches
     3. Supplied list ranked by Levenshtein distance
