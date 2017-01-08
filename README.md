@@ -6,7 +6,7 @@ All results are dependant on the size of training data set.
 
 ### Introduction
 
-In an era where the news is dictated not by veracity, but by speed, the ability to parse headlines as they come is crucial to maintaining the upper edge in market operations. While true natural language processing has yet to achieved, this repository gives one approach to analyzing sentence connotations. By training the computer to associate each word with a particular market movement, it can give a general gauge of how the market will react to a particular piece of information. 
+In an age where the news is dictated not by veracity, but by speed, the ability to parse headlines as they are made is crucial to maintaining the upper edge in market operations. While true natural language processing has yet to achieved, this repository gives one approach to analyzing sentence connotations. By training the computer to associate each word with a particular market movement, it can give a general gauge of how the market will react to a particular piece of information. 
 
 ### Features
 
