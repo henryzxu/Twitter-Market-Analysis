@@ -56,11 +56,7 @@ In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:2]
 ```
 
 ```markdown
-<<<<<<< HEAD
-Out[4]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq'), ('BEBE', 'bebe stores, inc.', 'nasdaq'),('CFNL', 'Cardinal Financial Corporation', 'nasdaq')]
-=======
-In[5]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq')]
->>>>>>> origin/master
+Out[4]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq')]
 ```
 
 ### Additional Features
