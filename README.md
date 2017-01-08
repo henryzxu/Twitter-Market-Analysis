@@ -2,7 +2,7 @@
 
 A research project to predict market movement based on short strings such as news headlines and Twitter tweets using language parsing, database lookup, JSON storage, and fuzzy searching. 
 
-All results are dependant on the size of training data set.
+All results are dependant on the size of training data set, the scalability of which is assisted by the project's design with MapReduce in mind.
 
 ### Introduction
 
@@ -52,11 +52,11 @@ Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Manag
 
 ##### Multiple Condition Search
 ```markdown
-In[4]: w.lookup(ipoyear = list(range(1998,2000)), se = 'amex')[:2]
+In[4]: w.lookup(name = 'Credit Suisse', ipoyear = list(range(1998,2000)), se = 'amex')
 ```
 
 ```markdown
-Out[4]: [('AMKR', 'Amkor Technology, Inc.', 'nasdaq'), ('AXTI', 'AXT Inc', 'nasdaq')]
+Out[4]: [('DHY', 'Credit Suisse High Yield Bond Fund', 'amex')]
 ```
 
 ### Additional Features

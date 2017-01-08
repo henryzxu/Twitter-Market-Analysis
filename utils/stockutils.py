@@ -86,7 +86,7 @@ def sql_search(path, table_name, search_terms, **conditions):
                 elif isinstance(param, collections.Iterable):
                     param = list(param)
             conditional = ' AND ' if param[0] == '^' else ' OR '
-            columns += [(' = ?' + conditional).join([column_name for _ in range(len(param))]) + ' = ?']  
+            columns += ['('+(' = ?' + conditional).join([column_name for _ in range(len(param))]) + ' = ?)']
         query = tuple([str(s) for s in flatten([param for param in conditions.values()])],)  
         conn = sqlite3.connect(path)
         c = conn.cursor()
