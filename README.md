@@ -62,7 +62,7 @@ Out[4]: [('DHY', 'Credit Suisse High Yield Bond Fund', 'amex')]
 ### Additional Features
 * CSV to SQLite3 conversion with primary key specification
 * Memoization of all database queries and historical stock prices
-* 3-tier fuzzy search:
+* 3-tier fuzzy match:
     1. Guaranteed matches
     2. Acronyms and whole word matches
     3. Supplied list ranked by Levenshtein distance
