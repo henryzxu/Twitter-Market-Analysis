@@ -41,7 +41,7 @@ Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '), (-14.006696428571436, 'Sea
 
 #### Database Lookup
 
-##### Fuzzy Name Search
+##### Fuzzy Name Match
 ```markdown
 In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:2]
 ```
