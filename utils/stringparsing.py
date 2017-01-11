@@ -89,4 +89,25 @@ def list_bigrams(sentence_list):
     """Uses NLTK's bigram function to return the bigrams of sentence_list."""
     assert nltk_enabled
     return bigrams(sentence_list)
-            
+
+def iscurrency(char):
+    try:
+        return char == '.' or int(char) or True
+    except ValueError:
+        return False 
+
+def market_cap(string):
+    try:
+        mcap = float(''.join([x for x in list(string) if iscurrency(x)]))
+    except ValueError:
+        return 0
+    multiplier = ''.join([x for x in list(string) if x.isalpha()]).lower()
+    if multiplier == 'k':
+        mcap *= pow(10,3)
+    elif multiplier == 'm':
+        mcap *= pow(10,6)
+    elif multiplier == 'b':
+        mcap *= pow(10,9)
+    return mcap
+    
+    
