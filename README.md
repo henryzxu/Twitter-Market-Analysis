@@ -36,18 +36,18 @@ retail season [-14.006696428571436]
 facing [-14.006696428571436]
 dismal [-14.006696428571436]
 
-Out[2]: [(-14.006696428571436, 'Sears Canada Inc. '), (-14.006696428571436, 'Sears Holdings Corporation'), (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
+Out[2]: [(-14.006696428571436, 'Sears Holdings Corporation'), (-14.006696428571436, 'Sears Canada Inc. '), (-14.006696428571436, 'Sears Hometown and Outlet Stores, Inc.')]
 ```
 
 #### Database Lookup
 
-##### Fuzzy Name Match
+##### Fuzzy Match Ranked by Market Cap
 ```markdown
 In[3]: w.lookup(search_info = ['symbol', 'name', 'ipoyear', 'marketcap'], name = 'Mgmt')[:2]
 ```
 
 ```markdown
-Out[3]: [('ARES', 'Ares Management L.P.', '2014', '$3.78B'), ('WM', 'Waste Management, Inc.', 'n/a', '$31.39B')]
+Out[3]: [('WM', 'Waste Management, Inc.', 'n/a', '$31.39B'), ('NLY', 'Annaly Capital Management Inc', 'n/a', '$10.23B')]
 ```
 
 ##### Multiple Condition Search
@@ -65,7 +65,7 @@ Out[4]: [('DHY', 'Credit Suisse High Yield Bond Fund', 'amex')]
 * 3-tier fuzzy match:
     1. Guaranteed matches
     2. Acronyms and whole word matches
-    3. Supplied list ranked by Levenshtein distance
+    3. Provided list ranked by Levenshtein distance
 
 ### Attributions
 Company information sourced from the NASDAQ website under fair use. Levenshtein distance function modified from the Wikibooks article on the subject found [here](https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance).
