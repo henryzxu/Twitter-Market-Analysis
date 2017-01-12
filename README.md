@@ -6,14 +6,14 @@ All results are dependant on the size of training data set, the scalability of w
 
 ### Introduction
 
-In an age where the news is dictated not by veracity, but by speed, the ability to parse headlines as they are made is crucial to maintaining the upper edge in market operations. While true natural language processing has yet to achieved, this repository gives one approach to analyzing sentence connotations. By training the computer to associate each word with a particular market movement, it can give a general gauge of how the market will react to a particular piece of information. 
+In an age where the news is dictated not by veracity, but by speed, the ability to parse headlines as they are made is crucial to maintaining the upper edge in market operations. While true natural language processing has yet to achieved, this repository gives one approach to analyzing sentence connotations. By training the machine to associate each word with a particular market movement, it can give a gauge of how the market will react to a particular piece of information. 
 
 ### Features
 
 #### Company Parsing
 ```markdown
 In[1]: w = StockData()
-       w.news_impact(datetime.datetime(2017,1,5),"Macy's to cut more than 10,000 jobs, close 68 stores")
+       w.news_impact(datetime.datetime(2017,1,5), "Macy's to cut more than 10,000 jobs, close 68 stores")
 ```
 
 ```markdown
